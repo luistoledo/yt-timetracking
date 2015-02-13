@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Time tracking</title>
+    <!--<script src="libraries/p5.js" type="text/javascript"></script> -->
+    <!-- Uncomment the lines below to include extra p5 libraries -->
+    <!--<script src="libraries/p5.dom.js" type="text/javascript"></script>-->
+    <!--<script src="libraries/p5.sound.js" type="text/javascript"></script>-->
+
+    <script src="sketch-sync.js" type="text/javascript"></script>
+    <style type="text/css">
+      body {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="div_controls">
+
+      <!-- <img src="spinner.gif" visible="false"> -->
+      1.
+      <button id="btn_loadproj" onclick="
+        getProjects();
+        document.getElementById('btn_loadtt').disabled = false;
+        document.getElementById('btn_loadproj').disabled = true;
+        ">Load projects</button>
+      <br>
+      2.
+      <select id="projects"></select>
+      <button id="btn_loadtt" disabled="true" onclick="
+        document.getElementById('btn_downloadcsv').disabled = true; document.getElementById('btn_downloadtxt').disabled = true;
+        loadTimeTracksFromProject(document.getElementById('projects').value);
+        document.getElementById('btn_downloadcsv').disabled = false; btn_downloadtxt.disabled=false;
+        ">Get timetracking issues</button>
+      <br>
+      3.
+      <button id="btn_downloadcsv" disabled="true" onclick="downloadCSVFileWith(document.getElementById('Data').innerText , document.getElementById('projects').value);">Download csv file</button>
+      <button id="btn_downloadtxt" disabled="true" onclick="downloadTXTFileWith(document.getElementById('Data').innerText , document.getElementById('projects').value);">Download txt file</button>
+    </div>
+    <div id="Data" />
+  </body>
+</html>
