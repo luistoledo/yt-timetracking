@@ -1,15 +1,15 @@
-// A wind direction vector
-var wind;
-// Circle position
-var position;
+var URL = 'https://diverza.myjetbrains.com/youtrack';
 
 function getProjects() {
-  var projects = request("https://diverza.myjetbrains.com/youtrack/rest/admin/project", 
+  var projects = request(URL + "/rest/admin/project", 
     "GET",
     onProjectsResponse);
 }
 
 function onProjectsResponse(response) {
+  if (response.currentTarget.status != 200)
+    document.getElementById("Data").innerText = response.currentTarget.responseText;
+  
   if ( !(response.currentTarget.readyState == 4 && response.currentTarget.status == 200) ) return;
 
   projects = JSON.parse(response.currentTarget.responseText);
@@ -52,7 +52,7 @@ function request(url, method, callback, data) {
 // var parser=new DOMParser();
 
 function loadTimeTracksFromProject(projPrefix) {
-  var projIssues = request("https://diverza.myjetbrains.com/youtrack/rest/issue/byproject/"+projPrefix+"?max=1000&filter=order+by%3A+updated+desc", 
+  var projIssues = request(URL + "/rest/issue/byproject/"+projPrefix+"?max=1000&filter=order+by%3A+updated+desc", 
     "GET",
     onIssuesResponse);
 }
@@ -67,7 +67,7 @@ function onIssuesResponse(response) {
 
   var timeTracks = "";
   for (var i = 0; i < projIssues.length; i++) {
-    var issueTT = request("https://diverza.myjetbrains.com/youtrack/rest/issue/"+ projIssues[i].id +"/timetracking/workitem/", 
+    var issueTT = request(URL + "/rest/issue/"+ projIssues[i].id +"/timetracking/workitem/", 
       "GET", 
       onIssueTTResponse );
   }
